@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8">
+  <title>Pytest kursus – A/B/C ülesanded</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{
+      --bg:#0e0f14; --card:#151826; --text:#e7e9f2; --muted:#9aa3b2; --accent:#6aa6ff; --ok:#43d17d; --warn:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0b0c11,#0e0f14);}
+    header{padding:32px 20px;text-align:center;color:var(--text)}
+    header h1{margin:0 0 6px 0;font-size:28px}
+    header p{margin:0;color:var(--muted)}
+    main{max-width:1100px;margin:20px auto;padding:20px;display:grid;gap:20px;grid-template-columns:1fr}
+    .card{background:var(--card);border:1px solid #23263a; border-radius:16px; padding:18px 20px; color:var(--text); box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    h2,h3{margin:8px 0 10px 0}
+    code,pre{background:#0c0d13;border:1px solid #22253a;color:#dfe3ff;border-radius:10px}
+    pre{padding:12px;overflow:auto}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#101223;border:1px solid #22263b;color:#aeb6c8;font-size:12px}
+    .grid{display:grid;gap:12px}
+    .two{grid-template-columns:1fr 1fr}
+    .ok{color:var(--ok)}
+    .accent{color:var(--accent)}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    ul{margin:8px 0 8px 18px}
+    .kbd{background:#0c0d13;border:1px solid #22253a;border-bottom-width:3px;padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+    .interactive-demo{margin:15px 0;padding:15px;background:#0c0d13;border-radius:10px;border:1px solid #22253a}
+    .function-test{margin:10px 0;padding:10px;background:#151826;border-radius:8px;border:1px solid #23263a}
+    .function-test h4{margin:0 0 8px 0;color:var(--accent);font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+    .function-test button{background:var(--accent);color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px}
+    .function-test button:hover{background:#5a9eff}
+    .result{margin-top:8px;padding:8px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:12px}
+    .result.pass{background:#1a3d2a;color:var(--ok);border:1px solid #2d5a3d}
+    .result.fail{background:#3d2a1a;color:var(--warn);border:1px solid #5a3d2d}
+    .result.info{background:#1a2a3d;color:var(--accent);border:1px solid #2d3d5a}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pytest mini-kursus (A → C)</h1>
+    <p>Kirjuta teste, et leida vigane kood. <span class="pill">Fookus: testide kirjutamine</span></p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Kiirkäivitus</h2>
+      <ul>
+        <li>Vaata funktsioone <span class="kbd">src/</span> failides.</li>
+        <li>Kirjuta teste <span class="kbd">tests/</span> failides.</li>
+        <li>Käivita kõik testid: <code>pytest -q</code></li>
+        <li>Käivita ainult A-osa testid: <code>pytest -q tests/test_a_basics.py</code></li>
+        <li>Käivita üks test nime järgi: <code>pytest -q -k test_add_basic</code></li>
+      </ul>
+      <p class="accent">Mõned funktsioonid on tahtlikult vigased - sinu testid peaksid need leidma!</p>
+    </section>
+
+    <section class="card">
+      <h2>A. Funktsionaalsed alustõed (a_basics.py)</h2>
+      <p>Üldine juhend: vaata funktsioone ja kirjuta teste, et kontrollida nende õigsust. Mõned funktsioonid võivad olla vigased - sinu testid peaksid need leidma!</p>
+      <h3>Proovi funktsioone siin:</h3>
+      <div class="interactive-demo">
+        <div class="function-test">
+          <h4>add(2,3)</h4>
+          <button onclick="testAdd()">Testi</button>
+          <div id="add-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>sub(5,3)</h4>
+          <button onclick="testSub()">Testi</button>
+          <div id="sub-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>mul(4,3)</h4>
+          <button onclick="testMul()">Testi</button>
+          <div id="mul-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>div(6,2)</h4>
+          <button onclick="testDiv()">Testi</button>
+          <div id="div-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>sum_list([1,2,3])</h4>
+          <button onclick="testSumList()">Testi</button>
+          <div id="sum-list-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>is_even(4)</h4>
+          <button onclick="testIsEven()">Testi</button>
+          <div id="is-even-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>factorial(5)</h4>
+          <button onclick="testFactorial()">Testi</button>
+          <div id="factorial-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>reverse_string("abc")</h4>
+          <button onclick="testReverseString()">Testi</button>
+          <div id="reverse-string-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>is_palindrome("racecar")</h4>
+          <button onclick="testIsPalindrome()">Testi</button>
+          <div id="is-palindrome-result" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>B. Kogud ja failid (b_collections_io.py)</h2>
+      <p>Üldine juhend: vaata funktsioone, mis töötlevad loendeid ja sõnastikke. Kirjuta teste, et kontrollida nende õigsust. Mõned funktsioonid võivad olla vigased!</p>
+      <h3>Proovi funktsioone siin:</h3>
+      <div class="interactive-demo">
+        <div class="function-test">
+          <h4>unique_sorted([3,1,2,2,3])</h4>
+          <button onclick="testUniqueSorted()">Testi</button>
+          <div id="unique-sorted-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>count_words("Tere tere TERE")</h4>
+          <button onclick="testCountWords()">Testi</button>
+          <div id="count-words-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>merge_dicts({"a":1, "b":2}, {"b":9, "c":3})</h4>
+          <button onclick="testMergeDicts()">Testi</button>
+          <div id="merge-dicts-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>sum_unique([1,2,2,3])</h4>
+          <button onclick="testSumUnique()">Testi</button>
+          <div id="sum-unique-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>dict_invert({a:1,b:2})</h4>
+          <button onclick="testDictInvert()">Testi</button>
+          <div id="dict-invert-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>frequencies([1,2,2,3])</h4>
+          <button onclick="testFrequencies()">Testi</button>
+          <div id="frequencies-result" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>C. Moodul + klass + servajuhtumid (c_module.py)</h2>
+      <p>Üldine juhend: vaata klassi ja funktsioone, mis hoiavad invariante (nt saldo ei tohi minna alla nulli). Kirjuta teste, et kontrollida nende õigsust ja servajuhtumeid.</p>
+      <h3>Proovi funktsioone siin:</h3>
+      <div class="interactive-demo">
+        <div class="function-test">
+          <h4>fibonacci(10)</h4>
+          <button onclick="testFibonacci()">Testi</button>
+          <div id="fibonacci-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>prime_factors(12)</h4>
+          <button onclick="testPrimeFactors()">Testi</button>
+          <div id="prime-factors-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>moving_average([1,2,3,4], 2)</h4>
+          <button onclick="testMovingAverage()">Testi</button>
+          <div id="moving-average-result" class="result"></div>
+        </div>
+        <div class="function-test">
+          <h4>BankAccount konto test</h4>
+          <button onclick="testBankAccount()">Testi</button>
+          <div id="bank-account-result" class="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Tulemus</h2>
+      <p>Kui testid kukuvad <span class="warn">FAIL</span>, siis oled leidnud vea funktsioonis! Kui testid lähevad läbi <span class="ok">PASS</span>, siis funktsioon on õige. Mõned funktsioonid on tahtlikult vigased - sinu ülesanne on need leida testidega.</p>
+    </section>
+  </main>
+
+  <script>
+    // A-osa funktsioonid 
+    function add(a, b) {
+      return a + b;
+    }
+    function sub(a, b) {
+      return a - b;
+    }
+    function mul(a, b) {
+      return a * b;
+    }
+    function div(a, b) {
+      if (b === 0) {
+        throw new Error("Jagamine nulliga");
+      }
+      return a / b;
+    }
+    function sum_list(nums) {
+      return nums.reduce((acc, val) => acc + val, 0);
+    }
+    function is_even(n) {
+      return n % 2 === 0;
+    }
+    function factorial(n) {
+      if (n < 0) {
+        throw new Error("Negatiivse arvu faktoriaal ei ole defineeritud");
+      }
+      if (n === 0) return 1;
+      return n * factorial(n - 1); 
+    }
+    function reverse_string(s) {
+      return s.split('').reverse().join('');
+    }
+    function is_palindrome(s) {
+      const str = s.replace(/\s/g, '').toLowerCase();
+      return str === str.split('').reverse().join('');
+    }
+    function median(nums) {
+      if (nums.length === 0) {
+        throw new Error("Tühja loendi mediaan ei ole defineeritud");
+      }
+      const sorted = [...nums].sort((a, b) => a - b);
+      const n = sorted.length;
+      if (n % 2 === 1) {
+        return sorted[Math.floor(n / 2)];
+      } else {
+        return (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+      }
+    }
+
+
+    // B-OSA FUNKTSIOONID (mõned vigased)
+    function unique_sorted(nums) {
+      return nums.filter((value, index, self) => self.indexOf(value) === index).sort((a, b) => a - b);
+    }
+    
+    function count_words(text) {
+      const words = text.toLowerCase().split(/\s+/);
+      const result = {};
+      for (const word of words) {
+        if (word) {
+          result[word] = (result[word] || 0) + 1;
+        }
+      }
+      return result;
+    }
+    
+    function merge_dicts(d1, d2) {
+      return { ...d1, ...d2 };
+    }
+
+    function find_max_pair(nums) {
+      if (nums.length === 0) {
+        throw new Error("Tühja loendi maksimum ei ole defineeritud");
+      }
+      const maxVal = Math.max(...nums);
+      const count = nums.filter(x => x === maxVal).length;
+      return [maxVal, count];
+    }
+
+    function flatten(nested) {
+      const result = [];
+      for (const sublist of nested) {
+        result.push(...sublist);
+      }
+      return result;
+    }
+
+    function chunk_list(lst, size) {
+      if (size <= 0) {
+        throw new Error("Suurus peab olema positiivne");
+      }
+      const result = [];
+      for (let i = 0; i < lst.length; i += size) {
+        result.push(lst.slice(i, i + size));
+      }
+      return result;
+    }
+ 
+    // C-OSA FUNKTSIOONID (mõned vigased)
+    function fibonacci(n) {
+      if (n < 0) throw new Error("Negatiivse arvu Fibonacci ei ole defineeritud");
+      if (n === 0) return 0;
+      if (n === 1) return 1;
+      return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    function prime_factors(n) {
+      if (n < 2) throw new Error("Algtegurid on defineeritud ainult arvude >= 2 jaoks");
+      const factors = [];
+      let d = 2;
+      while (d * d <= n) {
+        while (n % d === 0) {
+          factors.push(d);
+          n /= d;
+        }
+        d++;
+      }
+      if (n > 1) factors.push(n);
+      return factors;
+    }
+    
+    function moving_average(values, window) {
+      if (window <= 0) throw new Error("Aken peab olema positiivne");
+      if (values.length < window) {
+        return [];
+      }
+      const result = [];
+      for (let i = 0; i <= values.length - window; i++) {
+        const avg = values.slice(i, i + window).reduce((a, b) => a + b, 0) / window;
+        result.push(avg);
+      }
+      return result;
+    }
+
+    // =================== A-osa testid ===================
+    function testAdd(){
+      const r=add(2,3),
+      e=5;showResult('add-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);}
+    function testSub(){
+      const r=sub(5,3),
+      e=2;showResult('sub-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testMul(){
+      const r=mul(4,3),
+      e=12;showResult('mul-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testDiv(){
+      const r=div(6,2),
+      e=3;showResult('div-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testSumList(){
+      const r=sum_list([1,2,3]),
+      e=6;showResult('sum-list-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testIsEven(){
+      const r=is_even(4),
+      e=true;showResult('is-even-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testFactorial(){
+      const r=factorial(5),
+      e=120;showResult('factorial-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testReverseString(){
+      const r=reverse_string("abc"),
+      e="cba";showResult('reverse-string-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+    function testIsPalindrome(){
+      const r=is_palindrome("racecar"),
+      e=true;showResult('is-palindrome-result',r===e,`Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+    }
+
+    // =================== B-osa testid ===================
+    function testUniqueSorted(){
+      try
+      {
+        const r=unique_sorted([3,1,2,2,3]),
+        e=[1,2,3];showResult('unique-sorted-result',
+        JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:[${r}] | Oodatud:[${e}] | 
+        ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('unique-sorted-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testCountWords(){
+      try
+      {
+        const r=count_words("Tere tere TERE"),
+        e={"tere":3};showResult('count-words-result',
+        JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:${JSON.stringify(r)} | 
+        Oodatud:${JSON.stringify(e)} | 
+        ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('count-words-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testMergeDicts(){
+      try
+      {
+        const r=merge_dicts({"a":1,"b":2},{"b":9,"c":3}),
+        e={"a":1,"b":9,"c":3};
+        showResult('merge-dicts-result',JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:${JSON.stringify(r)} | 
+        Oodatud:${JSON.stringify(e)} | 
+        ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('merge-dicts-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testSumUnique(){
+      try
+      {
+        const r=sum_unique([1,2,2,3]),
+        e=6;showResult('sum-unique-result',r===e,
+        `Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('sum-unique-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testDictInvert(){
+      try
+      {
+        const r=dict_invert({a:1,b:2}),
+        e={1:'a',2:'b'};showResult('dict-invert-result',
+        JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:${JSON.stringify(r)} 
+        | Oodatud:${JSON.stringify(e)} 
+        | ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('dict-invert-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testFrequencies(){
+      try
+      {
+        const r=frequencies([1,2,2,3]),
+        e={1:1,2:2,3:1};showResult('frequencies-result',
+        JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:${JSON.stringify(r)} |
+        Oodatud:${JSON.stringify(e)} |
+        ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('frequencies-result',false,`VIGA:${err.message}`);
+      }
+    }
+
+    // C-osa testid 
+    function testFibonacci(){
+      try
+      {
+        const r=fibonacci(10),
+        e=55;showResult('fibonacci-result',r===e,
+        `Tulemus:${r} | Oodatud:${e} | ${r===e?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('fibonacci-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testPrimeFactors(){
+      try
+      {
+        const r=prime_factors(12),
+        e=[2,2,3];showResult('prime-factors-result',
+        JSON.stringify(r)===JSON.stringify(e),
+        `Tulemus:[${r}] | Oodatud:[${e}] | 
+        ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('prime-factors-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testMovingAverage(){
+      try
+      {
+        const r=moving_average([1,2,3,4],2),
+        e=[1.5,2.5,3.5];showResult('moving-average-result',
+        JSON.stringify(r)===JSON.stringify(e),`Tulemus:[${r}] | 
+        Oodatud:[${e}] | ${JSON.stringify(r)===JSON.stringify(e)?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('moving-average-result',false,`VIGA:${err.message}`);
+      }
+    }
+    function testBankAccount(){
+      try
+      {
+        const acc={balance:10};
+        const canWithdraw=acc.balance>=11;
+        const ok=!canWithdraw;showResult('bank-account-result',ok,`Saldo:${acc.balance} | 
+        Üle võtmine 11: ${canWithdraw?'LUBATUD':'KEELATUD'} | ${ok?'PASS':'FAIL'}`);
+      }
+      catch(err)
+      {
+        showResult('bank-account-result',false,`VIGA:${err.message}`);
+      }
+    }
+  </script>
+</body>
+</html>
