@@ -29,3 +29,6 @@ jobs:
 
       - name: Run tests
         run: PYTHONPATH=./pytest-kursus pytest -q
+
+
+        
